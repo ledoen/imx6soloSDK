@@ -1,6 +1,8 @@
 #include "bsp_epit.h"
 #include "bsp_sysinit.h"
 #include "bsp_gpio.h"
+#include "bsp_uart.h"
+#include "bsp_gpt.h"
 
 
 void epit1_init(uint32_t prescale, uint32_t settime)
@@ -49,6 +51,12 @@ void epit1_irqhadler(uint32_t intnum, void *param)
 	static uint32_t ledstate;
 	ledstate = !ledstate;
 	gpio502(ledstate);
+	
+	/*发送超声波时间信号*/
+	UART2_WriteNum(flightTime);
+	UART2_WriteByte('\r');
+	UART2_WriteByte('\n');
+	
 	/* 清除标志位 */
 	EPIT1->SR |= 1 << 0;
 }

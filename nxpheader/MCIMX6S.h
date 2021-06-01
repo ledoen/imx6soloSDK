@@ -173,7 +173,7 @@ typedef enum IRQn {
   SPDIF_IRQn                   = 84,               /**< SPDIF interrupt. */
   Reserved85_IRQn              = 85,               /**< Reserved */
   PMU_IRQ1_IRQn                = 86,               /**< Brown-out event on either the 1.1, 2.5 or 3.0 regulators. */
-  GPT1_IRQn                    = 87,               /**< Logical OR of GPT1 rollover interrupt line, input capture 1 and 2 lines, output compare 1, 2, and 3 interrupt lines. */
+  GPT_IRQn                     = 87,               /**< Logical OR of GPT1 rollover interrupt line, input capture 1 and 2 lines, output compare 1, 2, and 3 interrupt lines. */
   EPIT1_IRQn                   = 88,               /**< EPIT1 output compare interrupt. */
   EPIT2_IRQn                   = 89,               /**< EPIT2 output compare interrupt. */
   GPIO1_INT7_IRQn              = 90,               /**< INT7 interrupt request. */
@@ -13188,9 +13188,9 @@ typedef struct {
 
 /* GPT - Peripheral instance base addresses */
 /** Peripheral GPT1 base address */
-#define GPT1_BASE                                (0x2098000u)
+#define GPT_BASE                                 (0x2098000u)
 /** Peripheral GPT1 base pointer */
-#define GPT1                                     ((GPT_Type *)GPT1_BASE)
+#define GPT                                      ((GPT_Type *)GPT_BASE)
 /** Peripheral GPT2 base address */
 #define GPT2_BASE                                (0x20E8000u)
 /** Peripheral GPT2 base pointer */
