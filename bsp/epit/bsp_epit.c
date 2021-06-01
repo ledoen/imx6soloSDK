@@ -53,9 +53,8 @@ void epit1_irqhadler(uint32_t intnum, void *param)
 	gpio502(ledstate);
 	
 	/*发送超声波时间信号*/
+	UART2_WriteByte('f');
 	UART2_WriteNum(flightTime);
-	UART2_WriteByte('\r');
-	UART2_WriteByte('\n');
 	
 	/* 清除标志位 */
 	EPIT1->SR |= 1 << 0;
