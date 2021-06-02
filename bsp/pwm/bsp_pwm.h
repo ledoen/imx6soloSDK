@@ -2,6 +2,10 @@
 #define __BSP_PWM_H
 
 #include "commen_headers.h"
+
+/*声明全局变量，用于保存舵机角度数据*/
+extern uint8_t angleData;
+
 /*pwm实现功能：
 *1.pwm1产生触发超声波测距的方波信号，高电平持续20us，周期20ms
 *2.pwm2产生控制舵机的方波信号，高电平持续时间1.5ms~2.5ms，周期20ms

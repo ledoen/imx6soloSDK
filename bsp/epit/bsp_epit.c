@@ -3,7 +3,7 @@
 #include "bsp_gpio.h"
 #include "bsp_uart.h"
 #include "bsp_gpt.h"
-
+#include "bsp_pwm.h"
 
 void epit1_init(uint32_t prescale, uint32_t settime)
 {
@@ -55,6 +55,13 @@ void epit1_irqhadler(uint32_t intnum, void *param)
 	/*发送超声波时间信号*/
 	UART2_WriteByte('f');
 	UART2_WriteNum(flightTime);
+	
+	/*设置舵机角度*/
+	uint16_t rotorPulse=1500;
+	if(angleData>=0 && angleData<=180){
+		rotorPulse = 500 + angleData * 100/9;
+		pwm_setduty(PWM2, rotorPulse);
+	}
 	
 	/* 清除标志位 */
 	EPIT1->SR |= 1 << 0;

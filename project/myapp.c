@@ -16,7 +16,7 @@ int main(void)
 	epit1_init(66, 100000);
 	uart2_init();
 	pwm_init(PWM1, 66, 20, 20000);
-	pwm_init(PWM2, 66, 500, 20000);
+	pwm_init(PWM2, 66, 1500, 20000);
 	gpt_init(66);
 
 	

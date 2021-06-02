@@ -1,7 +1,10 @@
 #include "bsp_pwm.h"
 
+uint8_t angleData;
+
 void pwm_init(PWM_Type *base, uint32_t prescaler, uint16_t duty, uint16_t period)
 {
+	angleData = 0;
 	/*设置管脚复用*/
 	IOMUXC_SetPinMux(IOMUXC_DISP0_DATA08_PWM1_OUT, 0);
 	IOMUXC_SetPinMux(IOMUXC_DISP0_DATA09_PWM2_OUT, 0);

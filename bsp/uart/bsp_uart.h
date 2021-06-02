@@ -21,4 +21,8 @@ void UART2_WriteBlocking(const uint8_t *data, size_t length);
 /* 发送数字 */
 void UART2_WriteNum(const uint32_t data);
 
+void uart2_irqhandler(uint32_t intnum, void *param);
+
+void processData(uint8_t *data);
+
 #endif

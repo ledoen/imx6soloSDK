@@ -1,4 +1,6 @@
 #include "bsp_uart.h"
+#include "bsp_sysinit.h"
+#include "bsp_pwm.h"
 
 void uart2_init(void)
 {
@@ -43,6 +45,12 @@ void uart2_init(void)
 
 	/* 设置UCR4寄存器，使能RDR中断*/
 	UART2->UCR4 = 1;
+	
+	/* 注册中断服务函数 */
+	SystemInstallIrqHandler(UART2_IRQn, uart2_irqhandler, NULL);
+	
+	/* 使能相应GIC中断 */
+	GIC_EnableIRQ(UART2_IRQn);
 	
 	/* 设置UCR1寄存器，使能UART2*/
 	UART2->UCR1 = 1 << 0;
@@ -143,4 +151,35 @@ void UART2_WriteNum(const uint32_t data)
 	}
 	UART2_WriteByte('\r');
 	UART2_WriteByte('\n');
+}
+
+void uart2_irqhandler(uint32_t intnum, void *param)
+{
+	/*接收一个字符*/
+	uint8_t ch = (uint8_t)(UART2->URXD & 0xFF);
+	
+	/*接收一行字符*/
+	static uint8_t strIndex=0;
+	static uint8_t strLine[32]="";
+	strLine[strIndex] = ch;				//将接收到的字符添加到字符串末尾
+	strIndex++;
+	
+	if(ch == '\n'){					//检测换行符
+		processData(strLine);
+		/*将一行字符清空*/
+		for(int i=0;i<strIndex;i++){
+			strLine[i] = 0;
+		}
+		strIndex = 0;
+	}
+	/*回显测试*/
+	//UART2_WriteByte(ch);
+}
+
+void processData(uint8_t *data)
+{
+	/*接收来自上位机的舵机控制信号，范围0-180*/
+	if(data[0]=='r'){				//判断是否为舵机控制信号
+		angleData = (data[1]-48)*100 + (data[2]-48)*10 + data[3]-48;
+	}
 }
