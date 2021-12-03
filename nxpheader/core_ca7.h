@@ -182,6 +182,7 @@ FORCEDINLINE __STATIC_INLINE void GIC_EnableIRQ(IRQn_Type IRQn)
 	GICD_Type *gic_d = (GICD_Type *)(__get_CBAR() + 0x1000UL);
   
 	gic_d->D_ISENABLER[((uint32_t)(int32_t)IRQn) >> 5] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+	/*和GICV2.0相比，多了下面一句指令，如果不加，则中断不起作用*/
 	gic_d->D_ITARGETSRn[IRQn] = 1;
 }
 
